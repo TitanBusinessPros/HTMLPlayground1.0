@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Playground 1.0</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to top, #6ec850 40%, #87ceeb 40%); /* Grass + Sky */
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Playground container */
+    .playground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    /* Slide */
+    .slide {
+      position: absolute;
+      bottom: 60px;
+      left: 12%;
+      width: 180px;
+      height: 220px;
+      background: linear-gradient(135deg, #d2691e, #8b4513);
+      clip-path: polygon(0 0, 100% 0, 100% 20%, 0 100%);
+      border-radius: 5px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .robot-slide {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+      animation: slideMove 4s infinite ease-in-out;
+    }
+
+    @keyframes slideMove {
+      0%   { bottom: 200px; left: 12%; transform: rotate(0deg);}
+      50%  { bottom: 70px; left: 28%; transform: rotate(10deg);}
+      100% { bottom: 200px; left: 12%; transform: rotate(0deg);}
+    }
+
+    /* Swing */
+    .swing-frame {
+      position: absolute;
+      bottom: 60px;
+      right: 18%;
+      width: 140px;
+      height: 200px;
+      border: 5px solid #444;
+      border-bottom: none;
+      border-radius: 5px;
+      background: linear-gradient(to bottom, #654321, #987654);
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.4);
+    }
+
+    .swing {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 150px;
+      background: #333;
+      transform-origin: top;
+      animation: swingMotion 3s infinite ease-in-out;
+      border-radius: 2px;
+    }
+
+    @keyframes swingMotion {
+      0%   { transform: rotate(-25deg); }
+      50%  { transform: rotate(25deg); }
+      100% { transform: rotate(-25deg); }
+    }
+
+    .robot-swing {
+      position: absolute;
+      bottom: -50px;
+      left: -25px;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+    }
+
+    /* Merry-go-round */
+    .merry {
+      position: absolute;
+      bottom: 60px;
+      left: 42%;
+      width: 140px;
+      height: 140px;
+      border: 5px solid #b22222;
+      border-radius: 50%;
+      animation: spin 6s linear infinite;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+      background: radial-gradient(circle, #ff7f50 0%, #b22222 100%);
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .robot-merry {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      background: url("https://img.icons8.com/color/96/000000/robot-2.png") no-repeat center/contain;
+      transform: translateX(-50%);
+    }
+
+    /* Foreground */
+    header {
+      padding: 1rem;
+      background-color: rgba(30,30,30,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #333;
+      z-index: 2;
+      position: relative;
+    }
+
+    header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.6rem;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: #ffffff;
+      border: none;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 14px;
+      resize: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #444;
+      transform: scale(1.05);
+    }
+
+    .word-counter {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    footer {
+      background: rgba(30,30,30,0.9);
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    footer a {
+      margin-left: 10px;
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+
+    footer a:hover {
+      transform: scale(1.2);
+    }
+
+    footer img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <!-- Playground Background -->
+  <div class="playground">
+    <div class="slide"></div>
+    <div class="robot-slide"></div>
+
+    <div class="swing-frame">
+      <div class="swing">
+        <div class="robot-swing"></div>
+      </div>
+    </div>
+
+    <div class="merry">
+      <div class="robot-merry"></div>
+    </div>
+  </div>
+
+  <!-- Foreground -->
+  <header>
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/playground.png" alt="Playground Icon">
+    <h1>HTML Playground 1.0</h1>
+  </header>
+
+  <main>
+    <textarea id="codeInput" placeholder="Paste or write your HTML code here..."></textarea>
+    <div class="controls">
+      <button onclick="previewCode()">Preview Live</button>
+      <button onclick="exportCode()">Export as index.html</button>
+    </div>
+    <div id="wordCount" class="word-counter">Word Count: 0</div>
+  </main>
+
+  <footer>
+    Designed by Titan Business Pros LLC | Phone: 405-998-7979
+    <a href="https://titanbusinesspros.github.io/NormanOklahoma/" target="_blank">Contact Us</a>
+    <br><br>
+    <a href="https://chat.openai.com/" target="_blank">
+      <img src="https://img.icons8.com/color/96/000000/robot-2.png" alt="ChatGPT Robot"> ChatGPT
+    </a>
+    <a href="https://github.com/" target="_blank">
+      <img src="https://img.icons8.com/ios-glyphs/30/ffffff/github.png" alt="GitHub">
+    </a>
+    <a href="https://www.deepseek.com/" target="_blank">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/whale.png" alt="DeepSeek Whale"> DeepSeek
+    </a>
+    <a href="https://search.google.com/search-console" target="_blank">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/google-web-search.png" alt="Google Search Console">
+    </a>
+  </footer>
+
+  <script>
+    function previewCode() {
+      const code = document.getElementById("codeInput").value;
+      const newWindow = window.open();
+      newWindow.document.open();
+      newWindow.document.write(code);
+      newWindow.document.close();
+    }
+
+    function exportCode() {
+      const code = document.getElementById("codeInput").value;
+      const blob = new Blob([code], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "index.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("codeInput").addEventListener("input", () => {
+      const code = document.getElementById("codeInput").value;
+      const hiddenPreview = document.createElement("div");
+      hiddenPreview.style.display = "none";
+      hiddenPreview.innerHTML = code;
+      document.body.appendChild(hiddenPreview);
+
+      const textOnly = hiddenPreview.innerText.trim().toLowerCase();
+      let tokens = textOnly.split(/\s+/);
+      tokens = tokens.filter(word => /^[a-zA-Z]+$/.test(word));
+
+      const words = tokens.length;
+      document.getElementById("wordCount").innerText = "Word Count: " + words;
+
+      document.body.removeChild(hiddenPreview);
+    });
+  </script>
+</body>
+</html>
